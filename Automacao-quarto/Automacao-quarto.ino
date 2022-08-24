@@ -13,8 +13,8 @@
 #define D8 12
 
 
-const char* ssid = "TP-LINK_AF2E5C";
-const char* password = "tinta54321";
+const char* ssid = "//Nome do WiFi";
+const char* password = "//Senha do WiFi";
 const int rs = 5, en = 4, d4 = 0, d5 = 2, d6 = 13, d7 = 3;
 
 Espalexa espAlexa;
