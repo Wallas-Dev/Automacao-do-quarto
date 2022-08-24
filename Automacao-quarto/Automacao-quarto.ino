@@ -5,15 +5,17 @@
 #endif
 
 #include <Espalexa.h>
+#include <LiquidCrystal.h>
 
 //#define D0 0
 //#define D1 5
 #define D5 14
-#define D8 15
+#define D8 12
 
 
-const char* ssid = "********";
-const char* password = "********";
+const char* ssid = "TP-LINK_AF2E5C";
+const char* password = "tinta54321";
+const int rs = 5, en = 4, d4 = 0, d5 = 2, d6 = 13, d7 = 3;
 
 Espalexa espAlexa;
 //void Funcion_D0(uint8_t brightness);
@@ -21,7 +23,7 @@ Espalexa espAlexa;
 void Funcion_D5(uint8_t brightness);
 void Funcion_D8(uint8_t brightness);
 
-
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() {
   Serial.begin(115200);
@@ -32,7 +34,19 @@ void setup() {
  // digitalWrite(D1, LOW);
   digitalWrite(D5, LOW);
   digitalWrite(D8, LOW);
-
+  lcd.begin(16, 2);
+  lcd.setCursor(0,0);
+  lcd.print("QUARTO DE WALLAS");
+  lcd.setCursor(0,1); 
+  lcd.print("LUZ:");
+  lcd.setCursor(4,1);
+  lcd.print("OFF");
+  lcd.setCursor(8,1);
+  lcd.print("VENT:");
+  lcd.setCursor(13,1);
+  lcd.print("OFF");
+  
+  
   ConectarWifi();
   //espAlexa.addDevice("D0", Funcion_D0);
   //espAlexa.addDevice("Motor", Funcion_D1);
@@ -40,12 +54,12 @@ void setup() {
   espAlexa.addDevice("Luz", Funcion_D8);
 
   espAlexa.begin();
+
 }
 
 void loop() {
   ConectarWifi();
-  espAlexa.loop();
-  delay(1);
+  espAlexa.loop();    
 }
 
 // Função para conectar com WIFI
@@ -69,26 +83,37 @@ void ConectarWifi() {
 void Funcion_D8(uint8_t brightness) {
   if (brightness) {
     digitalWrite(D8, HIGH);
+    lcd.setCursor(4,1);
+    lcd.print("ON ");
   }
   else {
     digitalWrite(D8, LOW);
+    lcd.setCursor(4,1);
+    lcd.print("OFF");
   }
 }
 // Função para o pin D5
 void Funcion_D5(uint8_t brightness) {
   if (brightness) {
     digitalWrite(D5, HIGH);
+    lcd.setCursor(13,1);
+    lcd.print("ON ");
   }
   else {
     digitalWrite(D5, LOW);
+    lcd.setCursor(13,1);
+    lcd.print("OFF");
   }
 }
-// Função para o pin D1
-//void Funcion_D1(uint8_t brightness) {
-  //if (brightness) {
-  //  digitalWrite(D1, HIGH);
-//  }
-//  else {
-//    digitalWrite(D1, LOW);
-//  }
-//}
+
+void displayonoff(){
+  const int n = 1;
+  while(n == 1){
+    lcd.noDisplay();
+    delay(1000);
+    lcd.display();
+    delay(2000); 
+  }
+} 
+
+ 
